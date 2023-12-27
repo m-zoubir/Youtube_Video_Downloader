@@ -23,14 +23,18 @@ def download():
 
         yt = YouTube(url, on_progress_callback=on_progress)
         progress_bar = customtkinter.CTkProgressBar(app, variable=progress_var, width=200, height=10,
-                                                    progress_color="#008800", mode="determinate" , border_width=2 , border_color="#888888" )
+                                                    progress_color="#008800", mode="determinate", border_width=2,
+                                                    border_color="#888888")
         progress_bar.place(relx=0.5, rely=0.7, anchor=tkinter.CENTER)
 
-        progress_downval= tkinter.Label(app , textvariable=progress_val , font=("Helvetica 15 normal ") ,  background="#FFFFFF" )
-        progress_downval.place(relx =  0.5 , rely = 0.8 , anchor=tkinter.CENTER)
+        progress_downval = tkinter.Label(app, textvariable=progress_val, font=("Helvetica 15 normal "),
+                                         background="#FFFFFF")
+        progress_downval.place(relx=0.5, rely=0.8, anchor=tkinter.CENTER)
 
         video = yt.streams.get_highest_resolution()
         video.download(".")
+        progress_downval.after(2, progress_downval.destroy)
+        progress_bar.after(2, progress_bar.destroy)
         finishlabel = customtkinter.CTkLabel(app, text="The Video is downloaded successfully !",
                                              font=customtkinter.CTkFont(family='<Helvetica>', size=12),
                                              text_color="#00FF00")
@@ -39,10 +43,10 @@ def download():
                                             font=customtkinter.CTkFont(family='<Helvetica>', size=12))
         print(f"Downloading: {yt.title}")
         titleLabel.place(relx=0.5, rely=0.7, anchor=tkinter.CENTER)
+
         finishlabel.after(10000, finishlabel.destroy)
         titleLabel.after(10000, titleLabel.destroy)
-        progress_bar.destroy()
-        progress_downval.destroy()
+
 
     except Exception as e:
         print(f"Error : {str(e)} ")
